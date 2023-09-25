@@ -60,6 +60,5 @@ public class CityCSVProcessor {
 		
 		reader.readAndProcess(csvFile);
 
-		System.out.println("Poop");
 	}
 }
