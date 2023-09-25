@@ -7,6 +7,12 @@ public record CityRecord(int id, int year, String city, int population) {
     }
 
     public static void main(String[] args) {
+        // Check if CL arguments are proper
+        if (args.length != 4) {
+            System.out.println("Usage: java CityRecord <id> <year> <city> <population>");
+            return;
+        }
+
         // Create a CityRecord instance
         int id = Integer.parseInt(args[0]);
         int year = Integer.parseInt(args[1]);
@@ -14,7 +20,7 @@ public record CityRecord(int id, int year, String city, int population) {
         int population = Integer.parseInt(args[3]);
 
         CityRecord cityRecord = new CityRecord(id, year, city, population);
-        
+
         // Print the formatted CityRecord using toString()
         System.out.println(cityRecord);
     }
