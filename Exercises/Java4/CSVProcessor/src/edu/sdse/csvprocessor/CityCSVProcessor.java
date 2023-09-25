@@ -59,5 +59,7 @@ public class CityCSVProcessor {
 		File csvFile = new File(dataDirectory, "Cities.csv");
 		
 		reader.readAndProcess(csvFile);
+
+		System.out.println("Poop");
 	}
 }
