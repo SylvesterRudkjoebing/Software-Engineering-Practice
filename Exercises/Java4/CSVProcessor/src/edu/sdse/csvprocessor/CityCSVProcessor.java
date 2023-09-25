@@ -3,9 +3,16 @@ package edu.sdse.csvprocessor;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 
 public class CityCSVProcessor {
-	
+	public ArrayList<CityRecord> allRecords = new ArrayList<>();
+	public Map<String, List<CityRecord>> recordsByCity = new HashMap<>();
+
 	public void readAndProcess(File file) {
 		//Try with resource statement (as of Java 8)
 		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
@@ -25,13 +32,25 @@ public class CityCSVProcessor {
 				
 				System.out.println("id: " + id + ", year: " + year + ", city: " + city + ", population: " + population);
 				
-				//TODO: Extend the program to process entries!
+				//Creates object cityRecord with the current line and adds it to a list of cityRecords
+				CityRecord cityRecord = new CityRecord(id, year, city, population);
+				allRecords.add(cityRecord);
+
+				// Add the CityRecord to the 'recordsByCity' map
+				recordsByCity.computeIfAbsent(city, k -> new ArrayList<>()).add(cityRecord);
+
 			}
 		} catch (Exception e) {
 			System.err.println("An error occurred:");
 			e.printStackTrace();
 		}
 	}
+
+	public void printAllRecords() {
+        for (CityRecord record : allRecords) {
+            System.out.println(record);
+        }
+    }
 	
 	private String cleanRawValue(String rawValue) {
 		return rawValue.trim();

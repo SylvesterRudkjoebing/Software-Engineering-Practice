@@ -13,13 +13,13 @@ public record CityRecord(int id, int year, String city, int population) {
             return;
         }
 
-        // Create a CityRecord instance
-        int id = Integer.parseInt(args[0]);
-        int year = Integer.parseInt(args[1]);
-        String city = args[2];
-        int population = Integer.parseInt(args[3]);
-
-        CityRecord cityRecord = new CityRecord(id, year, city, population);
+        // Create a CityRecord instance directly from command-line arguments
+        CityRecord cityRecord = new CityRecord(
+            Integer.parseInt(args[0]),
+            Integer.parseInt(args[1]),
+            args[2],
+            Integer.parseInt(args[3])
+        );
 
         // Print the formatted CityRecord using toString()
         System.out.println(cityRecord);
