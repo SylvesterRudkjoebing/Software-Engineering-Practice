@@ -1,1 +1,1 @@
-My Awesome Solution
+My Awesome Solutions
