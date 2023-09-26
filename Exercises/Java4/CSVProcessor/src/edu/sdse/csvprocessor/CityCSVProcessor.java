@@ -90,29 +90,21 @@ public class CityCSVProcessor {
             String cityName = entry.getKey();
             List<CityRecord> cityRecords = entry.getValue();
 
-			List<Integer> years = new ArrayList<>();
-			List<Integer> populations = new ArrayList<>();
-			int entries = cityRecords.size();
-
-            for (CityRecord record : cityRecords) {
-                years.add(record.year());
-				populations.add(record.population());
-            }
-
-			// Finds Average Population in the Entries
-			int sum = 0;
-			for (Integer i : populations) {
-				sum += i;
+			int totalPopulation = 0;
+			int minYear = Integer.MAX_VALUE;
+			int maxYear = Integer.MIN_VALUE;
+	
+			for (CityRecord record : cityRecords) {
+				totalPopulation += record.population();
+				int year = record.year();
+				minYear = Math.min(minYear, year);
+				maxYear = Math.max(maxYear, year);
 			}
-
-			float avg = sum/entries;
-
-			// Sorts list to find minimum and maximum year
-			int min = Collections.min(years);
-			int max = Collections.max(years);
-
-			// Prints the data aggregations
-			String formattedString = String.format("%s (%d-%d; %d entries): %.0f", cityName, min, max, entries, avg);
+	
+			int entries = cityRecords.size();
+			float avgPopulation = (float) totalPopulation / entries;
+	
+			String formattedString = String.format("%s (%d-%d; %d entries): %.0f", cityName, minYear, maxYear, entries, avgPopulation);
 			System.out.println(formattedString);
 
         }
