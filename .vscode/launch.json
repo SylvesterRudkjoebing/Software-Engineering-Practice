@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "LibrarySystem",
+            "request": "launch",
+            "mainClass": "org.nypl.journalsystem.LibrarySystem",
+            "projectName": "Project 1 - Phase 1"
+        },
+        {
+            "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}"

@@ -4,15 +4,19 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 
 public class CityCSVProcessor {
-	public ArrayList<CityRecord> allRecords = new ArrayList<>();
-	public Map<String, List<CityRecord>> recordsByCity = new HashMap<>();
+	private ArrayList<CityRecord> allRecords;
+	private Map<String, List<CityRecord>> recordsByCity;
+
+	public CityCSVProcessor() {
+		allRecords = new ArrayList<>();
+		recordsByCity = new HashMap<>();
+	}
 
 	public void readAndProcess(File file) {
 		//Try with resource statement (as of Java 8)
@@ -72,19 +76,6 @@ public class CityCSVProcessor {
 		return rawValue;
 	}
 	
-	public static final void main(String[] args) {
-		CityCSVProcessor reader = new CityCSVProcessor();
-		
-		File dataDirectory = new File("data/");
-		File csvFile = new File(dataDirectory, "Cities.csv");
-		
-		reader.readAndProcess(csvFile);
-
-		reader.printAllRecords();
-
-		reader.printRecordsByCity();
-	}
-
 	public void printRecordsByCity() {
         for (Map.Entry<String, List<CityRecord>> entry : recordsByCity.entrySet()) {
             String cityName = entry.getKey();
@@ -109,4 +100,16 @@ public class CityCSVProcessor {
 
         }
     }
+	public static final void main(String[] args) {
+		CityCSVProcessor reader = new CityCSVProcessor();
+		
+		File dataDirectory = new File("data/");
+		File csvFile = new File(dataDirectory, "Cities.csv");
+		
+		reader.readAndProcess(csvFile);
+
+		reader.printAllRecords();
+
+		reader.printRecordsByCity();
+	}
 }
