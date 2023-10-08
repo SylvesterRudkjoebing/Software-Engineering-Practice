@@ -9,6 +9,13 @@
             "name": "LibrarySystem",
             "request": "launch",
             "mainClass": "org.nypl.journalsystem.LibrarySystem",
+            "projectName": "Project 1 - Phase 2"
+        },
+        {
+            "type": "java",
+            "name": "LibrarySystem",
+            "request": "launch",
+            "mainClass": "org.nypl.journalsystem.LibrarySystem",
             "projectName": "Project 1 - Phase 1"
         },
         {
