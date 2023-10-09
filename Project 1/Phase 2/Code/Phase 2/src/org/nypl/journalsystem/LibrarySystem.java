@@ -16,12 +16,14 @@ public class LibrarySystem {
 	private List<Journal> journals;
 	private List<Author> authors;
 	private List<Article> articles;
-	
+	private List<Citation> citations;
+
 	public LibrarySystem() {
         // Initialize the list of journals
         journals = new ArrayList<>();
 		authors = new ArrayList<>();
 		articles = new ArrayList<>();
+		citations = new ArrayList<>();
 
         // Create and add default journals
         Publisher springer = new Publisher("Springer", "Germany");
@@ -46,9 +48,14 @@ public class LibrarySystem {
 		return journals;
 	}
 
+	public List<Citation> getCitations() {
+        return citations;
+    }
+
 	public void load() throws FileNotFoundException, IOException {
 		loadAuthors();
 		loadArticles();
+		loadCitatedBys();
 	}
 	
 	protected void loadAuthors() throws FileNotFoundException, IOException {
@@ -96,10 +103,10 @@ public class LibrarySystem {
 					String title = articleData[1];
 					List<Integer> authorIds = parseAuthorIds(articleData[2]);
 					String issn = articleData[3];
-					List<Integer> citedIds = parseAuthorIds(articleData[4]);
+					List<Integer> citesIds = parseAuthorIds(articleData[4]);
 					
 					// Create an Article object and add it to your system
-					Article article = new Article(id, title, authorIds, issn, citedIds);
+					Article article = new Article(id, title, authorIds, issn, citesIds);
 					// Add the article to your system's data structure (e.g., a list of articles)
 					articles.add(article);
 
@@ -108,10 +115,40 @@ public class LibrarySystem {
 							journal.articles().add(article);
 						}
 					}
+					
+					List<Integer> citedByIds = new ArrayList<>(); 
+					// Create an Citation object and add it to your system
+					Citation citation = new Citation(id, citesIds, citedByIds);
+
+					// Add the citation to your system's data structure (e. g., a list of citations)
+					citations.add(citation);
 				}
 			}
 		}
 	}
+
+	protected void loadCitatedBys() {
+		List<Citation> updatedCitations = new ArrayList<>();
+	
+		for (Citation citation : citations) {
+			int id = citation.id();
+			List<Integer> citedByIds = new ArrayList<>(); // Create a new list for each citation
+	
+			for (Citation citingCitation : citations) {
+				if (citingCitation != citation && citingCitation.citesids().contains(id)) {
+					citedByIds.add(citingCitation.id());
+				}
+			}
+	
+			// Create a new Citation object with the updated citedbyids
+			Citation updatedCitation = new Citation(citation.id(), citation.citesids(), citedByIds);
+			updatedCitations.add(updatedCitation);
+		}
+	
+		// Replace the old citations list with the updated one
+		citations = updatedCitations;
+	}
+	
 	
 	private List<Integer> parseAuthorIds(String authorIdsString) {
 		List<Integer> authorIds = new ArrayList<>();
@@ -152,9 +189,11 @@ public class LibrarySystem {
 				}
 				System.out.println();
 				
-				System.out.print("  Cited in: ");
+				System.out.print("  Cites: ");
 				for (Integer citedId : article.citedids()) {
-					System.out.print(Integer.toString(citedId) + ", ");
+					String articlename = findArticleNameById(citedId);
+					System.out.print(articlename + ",");
+					//System.out.print(Integer.toString(citedId) + ", ");
 				}
 				System.out.println();
 			}
@@ -170,6 +209,15 @@ public class LibrarySystem {
 			}
 		}
 		return "Unknown"; // Author not found
+	}
+
+	public String findArticleNameById(int articleId) {
+		for (Article article : articles) {
+			if (article.id() == articleId) {
+				return article.title();
+			}
+		}
+		return "Unknown"; // Article not found
 	}
 
 	public static final void main(String[] args) throws Exception {

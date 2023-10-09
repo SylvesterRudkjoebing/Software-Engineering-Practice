@@ -6,14 +6,15 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.nypl.journalsystem.hindex.CitationCalculator;
+import org.nypl.journalsystem.hindex.CitationCalculatorFixed;
 import org.nypl.journalsystem.hindex.ICitationCalculator;
 
-public class CitationCalculatorTest {
-	private ICitationCalculator calculator;
+public class CitationCalculatorFixedTest {
+	private CitationCalculatorFixed calculator;
 	
 	@BeforeEach
 	public void setup() {
-		calculator = new CitationCalculator();
+		calculator = new CitationCalculatorFixed();
 	}
 	
 	@AfterEach
