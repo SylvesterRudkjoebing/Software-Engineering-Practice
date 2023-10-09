@@ -91,14 +91,15 @@ public class LibrarySystem {
 				// Process each line of the CSV file to extract article information
 				String[] articleData = line.split(",");
 				// Create and add Article objects to your system as needed
-				if (articleData.length == 4) {
+				if (articleData.length == 5) {
 					int id = Integer.parseInt(articleData[0]);
 					String title = articleData[1];
 					List<Integer> authorIds = parseAuthorIds(articleData[2]);
 					String issn = articleData[3];
+					List<Integer> citedIds = parseAuthorIds(articleData[4]);
 					
 					// Create an Article object and add it to your system
-					Article article = new Article(id, title, authorIds, issn);
+					Article article = new Article(id, title, authorIds, issn, citedIds);
 					// Add the article to your system's data structure (e.g., a list of articles)
 					articles.add(article);
 
@@ -148,6 +149,12 @@ public class LibrarySystem {
 					System.out.print(authorname + ",");
 
 
+				}
+				System.out.println();
+				
+				System.out.print("  Cited in: ");
+				for (Integer citedId : article.citedids()) {
+					System.out.print(Integer.toString(citedId) + ", ");
 				}
 				System.out.println();
 			}
